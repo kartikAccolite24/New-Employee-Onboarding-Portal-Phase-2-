@@ -1,0 +1,1 @@
+export { default as EducationView } from './education-view';

@@ -1,0 +1,228 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.welcome-text {
+  text-align: center;
+  color: rgb(38, 9, 88);
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 800px;
+  font-size: larger;
+}
+
+.text-center {
+  color: rgb(38, 9, 88);
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+
+.dropdown {
+  /* position: relative; */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dropdown-toggle {
+  background-color: rgb(99, 99, 207);
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* background-color: #F9F9F9; */
+  background: linear-gradient(90deg, #003A74, #006AD5);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  margin-bottom: 80px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #ddd;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgb(220, 179, 179);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  width: 25rem;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.buttons-box {
+  /* border: 2px solid black; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: self-start;
+}
+
+#forgotButton {
+  padding-left: 70px;
+
+  color: blue;
+}
+
+#username,
+#adminName {
+  margin-bottom: 15px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #DDDDDD;
+  color: #A0A6A3;
+  font-family: "Roboto Mono", sans-serif;
+  box-shadow: 1px 5px 9px rgba(211, 211, 211, .7);
+}
+
+.login_register {
+  display: flex;
+  width: 100%;
+  border: 1px solid rgba(221, 221, 221, 1);
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.login_register button {
+  font-size: 1em;
+  padding: 10px 55px;
+  border: none;
+  width: 50%;
+}
+
+#employee {
+  border-radius: 15px;
+  background: linear-gradient(90deg, #003A74, #006AD5);
+  color: white;
+}
+
+#admin {
+  border-radius: 15px;
+  background-color: transparent;
+
+  color: black;
+}
+
+.custom-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+ 
+}
+
+.custom-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 20px;
+  /* initial border radius */
+  cursor: pointer;
+ 
+  /* Gradient Background */
+  background-image: linear-gradient(90deg, #003A74, #006AD5);
+}
+
+.custom-button:hover {
+  background-color: red;
+  border-radius: 20px;
+  /* curved edges on hover */
+}
+
+.statusbar {
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Customstart,
+.Customend {
+  padding: 0;
+  width: 15%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.Customend img {
+  margin-bottom: 9px;
+}
+
+.Customstart img,
+.Customend img {
+
+  width: 100%;
+  height: 130px;
+}
+
+.statusbar {
+  width: 50%;
+  height: 60%;
+  margin-top: 70px;
+  color:red;
+  font-size: larger;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+}
+
+.bar {
+  height: 5px;
+  width: 107%;
+   background-color: rgb(0, 123, 255); 
+  /* Let progress bar take remaining space */
+   /* Adjust the height of the progress bar */
+   /* Set background to transparent */
+    border-bottom: 1px solid #007bff;
+  box-shadow: 0px 0px 2px 2px rgba(0, 123, 255, 0.5); /* Add shadows */
+  position:relative;
+
+
+}
