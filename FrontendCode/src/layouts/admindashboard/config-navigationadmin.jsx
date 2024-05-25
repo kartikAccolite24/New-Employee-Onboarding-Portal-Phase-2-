@@ -9,16 +9,16 @@ const icon = (name) => (
 const navConfigadmin = [
  
   {
-    title: 'user',
+    title: 'Employee List',
     path: '/user',
     icon: icon('ic_user'),
   },
   
-  {
-    title: 'userDetails',
-    path: '/userDetails',
-    icon: icon('ic_blog'),
-  },
+  // {
+  //   title: 'userDetails',
+  //   path: '/userDetails',
+  //   icon: icon('ic_blog'),
+  // },
   // {
   //   title: 'login',
   //   path: '/login',

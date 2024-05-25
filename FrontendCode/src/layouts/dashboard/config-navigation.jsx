@@ -29,18 +29,18 @@ const icon = (name) => (
     path: '/banking  ',
     icon: icon('ic_analytics'),
   },
-  
+  {
+    title: 'Upload Documents',
+    path: '/UploadDocuments  ',
+    icon: icon('ic_analytics'),
+  },
   
   
 ];
  export const navConfigDocumentation = [
 
   
-  {
-    title: 'Upload Documents',
-    path: '/UploadDocuments  ',
-    icon: icon('ic_analytics'),
-  },
+
   {
     title: 'Company Documents',
     path: '/documents  ',
@@ -58,11 +58,11 @@ const icon = (name) => (
     icon: icon('ic_analytics'),
   },
  
-  {
-    title: 'faqs',
-    path: '/FAQ',
-    icon: icon('ic_cart'),
-  },
+  // {
+  //   title: 'faqs',
+  //   path: '/FAQ',
+  //   icon: icon('ic_cart'),
+  // },
   
 ];
  

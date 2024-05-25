@@ -126,7 +126,7 @@ const UserView = () => {
   return (
     <Box>
       <h4 style={{ fontWeight: "bold", marginLeft: "5px", marginBottom: "20px", marginTop: "5px" }}>
-        Employee Requests
+        Employee List
       </h4>
       <Box height="80vh" fontSize="larger">
         <DataGrid

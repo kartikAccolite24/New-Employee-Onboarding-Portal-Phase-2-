@@ -37,7 +37,8 @@ public class EmployeeLoginDetails {
         @NonNull
         private List<String> documentIds;
         // new code
-
+        @NonNull
+        private boolean applicationStatus;
         // newest code
         // Enum definition
         public enum ApprovalStatus {

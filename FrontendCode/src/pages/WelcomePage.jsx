@@ -69,7 +69,7 @@ export default function WelcomePage() {
 
         </div>
         <div style={{ width: "100vw", display: "flex", justifyContent: "center", marginTop: "8px" }}>
-     <button type="submit" className="custom-button mb-5" style={{ color: "white", backgroundColor: "linear-gradient(90deg, #003A74, #006AD5)" }} onClick={() => { navigate("/personal", { state: { username,empId , jwtToken } }) }}>GetStarted!</button>
+     <button type="submit" className="custom-button mb-5" style={{ color: "white", backgroundColor: "linear-gradient(90deg, #003A74, #006AD5)" }} onClick={() => { navigate("/dashboard", { state: { username,empId , jwtToken } }) }}>GetStarted!</button>
    </div>
 
     </div>

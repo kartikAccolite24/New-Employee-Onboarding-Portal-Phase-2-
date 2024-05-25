@@ -1,7 +1,5 @@
-
 import axios from "axios";
 import {React ,useEffect,useState } from "react";
-
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import {
   Box,
@@ -9,32 +7,27 @@ import {
   Container,
   Typography,
   IconButton
-
 } from "@mui/material";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PersonPin } from "@mui/icons-material";
+
 
 export default function UserDetails() {
   const [personal,setPersonal] = useState({});
   const [ educational , setEducational]= useState({});
   const [ banking , setBanking]= useState({});
   const [isApproval , setApproval]=useState("");
+  const [documentsData, setDocumentsData] = useState([]);
   const navigate = useNavigate();
-
+  const [documentImage, setDocumentImage] = useState("");
+  const documentsNames = ["Aadhar Card", "Pan Card", "Passport size photograph","10th Marksheet","12th Marksheet","University Marksheet","Passbook/Cancelled Cheque"];
   
-
   const location = useLocation();
   const {jwtToken , idToSend} = location.state;
   console.log(idToSend);
   console.log(jwtToken);
-
   const empId=idToSend;
-
   localStorage.setItem('isApproval',isApproval);
-
-
   const fetchUsersData = async () => {
-
     const axiosInstance = axios.create({
       baseURL: "http://localhost:8080", // Your API base URL
       headers: {
@@ -43,20 +36,18 @@ export default function UserDetails() {
     });
     try {
       // Make GET request to your API endpoint
-      const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${idToSend}`);
+      const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${empId}`);
       const educationalResponse = await axiosInstance.get(`/fetchEducationalDetails/${idToSend}`);
       const bankingResponse = await axiosInstance.get(`/fetchBankingDetails/${idToSend}`);
       const employeeId = personalResponse.data.body.empId;
       console.log(employeeId);
       // const documentsResponse = await axiosInstance.get(`file/documents/${employeeId}`);
-
-      // console.log(documentsResponse);
-
+      // console.log(documentsResponse.data);
       setPersonal(personalResponse.data.body);
       setEducational(educationalResponse.data.body);
       setBanking(bankingResponse.data.body);
-
-
+      setDocumentsData(documentsResponse.data);
+      console.log(documentsData);
       // console.log(personal);
       // console.log(documentsResponse)
       // console.log(response.data);
@@ -72,18 +63,39 @@ export default function UserDetails() {
       console.error("Error fetching users data:", error);
     }
   };
-
-
+  const handleDocClick = async (docId) => {
+    try {
+      const axiosInstance = axios.create({
+        baseURL: "http://localhost:8080", // Your API base URL
+        headers: {
+          "Authorization": `Bearer ${jwtToken}`
+        }
+      });
+      
+      // Make a GET request to download the document
+      const response = await axiosInstance.get(`file/download/${docId}`, {
+        responseType: 'blob'
+      });
+      const contentType = response.headers['content-type'];
+      if (contentType === 'application/pdf') {
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } else {
+        const imageUrl = URL.createObjectURL(response.data);
+        setDocumentImage(imageUrl);
+      }
+    } catch (error) {
+      console.error("Error fetching document:", error);
+    }
+  };
   useEffect(() => {
-
     fetchUsersData();
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]); 
-
   const handleSubmit = (event) => {
     // event.preventDefault();
-
     // axios
     //   .post("/api/personal-details", formData)
     //   .then((response) => {
@@ -93,16 +105,13 @@ export default function UserDetails() {
     //     console.error(error);
     //   });
   };
-
   const handleApprove = async() => {
-
     const axiosInstance = axios.create({
       baseURL: "http://localhost:8080", // Your API base URL
       headers: {
         "Authorization": `Bearer ${jwtToken}`
       }
     });
-
     
     const response = await axiosInstance.put(`/setApprovalStatus/${empId}?status=APPROVED`);
     setApproval(response.data.isApproved);
@@ -110,9 +119,7 @@ export default function UserDetails() {
     console.log(isApproval);
  
   };
-
   const handleReject = async() => {
-
     const axiosInstance = axios.create({
       baseURL: "http://localhost:8080", // Your API base URL
       headers: {
@@ -129,11 +136,9 @@ export default function UserDetails() {
     // localStorage.setItem("isApproved",isApproved);
     console.log(isApproval);
   };
-
   const handleViewClick = (pdfUrl) => {
     window.open(pdfUrl, "_blank");
   };
-
   return (
     <Container>
       <Box sx={{ mt: 5,
@@ -154,7 +159,6 @@ export default function UserDetails() {
         >
           <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-              {/* First Name */}
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   First Name:
@@ -229,7 +233,6 @@ export default function UserDetails() {
           </form>
         </Box>
       
-
        <Box sx={{ mt: 5 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Educational Details
@@ -324,15 +327,12 @@ export default function UserDetails() {
         </Box>
        </Box>
        <Box sx={{ mt: 5 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Documents 
-        </Typography>
-        <Box
-         
-        >
+        <Box>
           <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-              {/* First Name */}
+            <Typography variant="h4" component="h1" gutterBottom>
+              Documents
+            </Typography>
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Aadhar Card:
@@ -389,6 +389,17 @@ export default function UserDetails() {
                   </IconButton>
                 </Typography>
               </Box>
+            {/* Display document names with view button
+            {documentsData.map((docId, index) => (
+              <Box key={index} sx={{ width: "50%", paddingRight: 2 }}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  {documentsNames[index]}:
+                  <IconButton onClick={() => handleDocClick(docId)}>
+                    <VisibilityOutlinedIcon />
+                  </IconButton>
+                </Typography>
+              </Box>
+            ))} */}
             </Box>
             {/* Approve and Reject Buttons */}
             <Box
