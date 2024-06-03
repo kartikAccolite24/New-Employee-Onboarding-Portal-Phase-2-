@@ -11,7 +11,7 @@ export default function UserPage() {
     <div style={{width:"25%"}}>
       <AdminDashboardLayout/>
     </div>
-      <div style={{marginTop:"100px" , width:'85%'}}>
+      <div style={{marginTop:"60px" , width:'78%'}}>
       <Helmet>
         <title> User | Minimal UI </title>
       </Helmet>

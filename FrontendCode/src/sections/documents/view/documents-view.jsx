@@ -8,7 +8,9 @@
 //   )
 // }
 import React, { useEffect } from "react";
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { DataGrid } from "@mui/x-data-grid";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import { Stack, useTheme ,IconButton,Typography} from "@mui/material";
@@ -39,6 +41,16 @@ const DocumentsView = () => {
   };
   const handleDownloadClick = (pdfUrl, documentName) => {
     downloadPDF(pdfUrl, documentName);
+  };
+  const settings = {
+    // Your settings for the Slider component
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
   const downloadPDF = (pdfUrl, documentName) => {
     const doc = new window.JsPDF();
@@ -87,6 +99,23 @@ const DocumentsView = () => {
   ];
   return (
     <Stack m="20px" fontWeight='bold'>
+       <Slider {...settings} style={{ marginLeft: '-30px' }}>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a114440124164fff93e6d4c0__Darwinbox%20Banner_2%20copy.jpg" alt="Slide 1" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a46922613264fff93ee90d4__Embrace%20Excellence_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 2" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a89337630364fff93ecd7d3__One%20Team%2C%20One%20Dream_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a110357827864fff93eb3b0a__Fearless%20Thinkers_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a39387173164fff93f1b97a__Cultivate%20Care%20%26%20Compasion_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+      </Slider>
       <Header title="Onboarding Documents" subtitle="" />
       <Typography variant="h4" component="h1">
         Onboarding Documents

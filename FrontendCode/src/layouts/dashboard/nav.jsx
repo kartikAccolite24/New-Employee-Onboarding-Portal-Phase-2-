@@ -1,4 +1,4 @@
-import { useEffect , useState} from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -16,14 +16,82 @@ import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 import { NAV } from './config-layout';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { navConfigProfile, navConfigDocumentation, navConfigTraining } from './config-navigation';
 // ----------------------------------------------------------------------
 export default function Nav({ openNav, onCloseNav }) {
   const navigate = useNavigate();
   const pathname = usePathname();
-  const [status, setStatus] = useState({});
+  const [status, setStatus] = useState([]);
+  let [personaldetailsStatus,setPersonalDetailsStatus]=useState('');
+  let [educationdetailsStatus , setEducationDetailsStatus]=useState('');
+  let [bankingdetailsStatus , setBankingStatus]=useState('');
+  let [uploaddocumentsStatus , setuploaddocumentsStatus]=useState('');
+  let [pastworkexperienceStatus , setworkStatus]=useState('');
+  const fresher = localStorage.getItem('fresher');
+  const username = localStorage.getItem('username');
+  
+  console.log(fresher);
   const upLg = useResponsive('up', 'lg');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const axiosInstance = axios.create({
+  //         baseURL: "http://localhost:8080",
+  //         headers: {
+  //           "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+  //         }
+  //       });
+  //       const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${localStorage.getItem('empId')}`);
+  //       const educationalResponse = await axiosInstance.get(`/fetchEducationalDetails/${localStorage.getItem('empId')}`);
+  //       const bankingResponse = await axiosInstance.get(`/fetchBankingDetails/${localStorage.getItem('empId')}`);
+  //       const experienceResponse = await axiosInstance.get(`/fetchWorkExperience/${localStorage.getItem('empId')}`);
+  //       const UploadDocuments = await axiosInstance.get(`/getUser/${username}`);
+  //       const docs = UploadDocuments ? UploadDocuments.data.documentMap:false;
+    
+  //       // console.log(educationalResponse);
+  //       // console.log(personalResponse);
+  //       // console.log(bankingResponse);
+  //       // console.log(experienceResponse);
+  //       const personaldetailsStatus = personalResponse.data.body ? personalResponse.data.body.status : false;
+  //       setPersonalDetailsStatus(personaldetailsStatus);
+  //       console.log(personaldetailsStatus);
+  //       const educationdetailsStatus = educationalResponse.data.body ? educationalResponse.data.body.status : false;
+  //       setEducationDetailsStatus(educationdetailsStatus);
+  //       const bankingdetailsStatus = bankingResponse.data.body ? bankingResponse.data.body.status : false;
+  //       setBankingStatus(bankingdetailsStatus);
+  //       // const pastworkexperienceStatus = fresher === 'true' ? true : (experienceResponse.data && experienceResponse.data.status === true);
+  //       // setworkStatus(pastworkexperienceStatus);
+  //       const uploaddocuments = docs;
+  //       setuploaddocumentsStatus(uploaddocuments);
+        
+  //       // const pastworkexperienceStatus = fresher === 'true' ? true : (experienceResponse.data && experienceResponse.data.status === true);
+        
+  //       // const pastworkexperienceStatus = fresher === true ? true:experienceResponse.data ?experienceResponse.data.status:false;
+  //       // const pastworkexperienceStatus = fresher === true? true: experienceResponse ? experienceResponse.data.status :false;
+  //       // console.log(personaldetailsStatus);
+  //       // console.log(pastworkexperienceStatus);
+        
+  //       // console.log(documentsResponse);
+  //       // const data = documentsResponse.data.documentMap;
+  //       // const uploaddocumentsStatus = (data == null || data == {})?false:true;
+        
+      
+  //       setStatus({
+  //         personaldetailsStatus,
+  //         educationdetailsStatus,
+  //         bankingdetailsStatus,
+  //         // pastworkexperienceStatus,
+  //         uploaddocumentsStatus
+          
+  //       });
+  //       console.log(status);
+  //       localStorage.setItem('email', personalResponse.data.body.emailId);
+  //     } catch (error) {
+  //       console.error("Error fetching users data:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [fresher]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,44 +101,87 @@ export default function Nav({ openNav, onCloseNav }) {
             "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
           }
         });
+  
+        // Fetch personal details
         const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${localStorage.getItem('empId')}`);
+        personaldetailsStatus = personalResponse.data.body ? personalResponse.data.body.status : false;
+  
+        // Fetch educational details
         const educationalResponse = await axiosInstance.get(`/fetchEducationalDetails/${localStorage.getItem('empId')}`);
+        educationdetailsStatus = educationalResponse.data.body ? educationalResponse.data.body.status : false;
+  
+        // Fetch banking details
         const bankingResponse = await axiosInstance.get(`/fetchBankingDetails/${localStorage.getItem('empId')}`);
-        const personaldetailsStatus = personalResponse.data.body ? personalResponse.data.body.status : false;
-        const educationdetailsStatus = educationalResponse.data.body ? educationalResponse.data.body.status : false;
-        const bankingdetailsStatus = bankingResponse.data.body ? bankingResponse.data.body.status : false;
-        console.log(educationalResponse);
-        console.log(personalResponse);
-        console.log(bankingResponse);
+        bankingdetailsStatus = bankingResponse.data.body ? bankingResponse.data.body.status : false;
+  
+        // Fetch upload documents
+        const UploadDocuments = await axiosInstance.get(`/getUser/${username}`);
+        const docs = UploadDocuments ? UploadDocuments.data.documentMap : false;
+        uploaddocumentsStatus = docs ? true : false;
+  
+        // Set statuses
+        setPersonalDetailsStatus(personaldetailsStatus);
+        setEducationDetailsStatus(educationdetailsStatus);
+        setBankingStatus(bankingdetailsStatus);
+        setuploaddocumentsStatus(uploaddocumentsStatus);
+       
+  
+        // If not a fresher, fetch experience data
+        // if (fresher === 'false') {
+        //   const experienceResponse = await axiosInstance.get(`/fetchWorkExperience/${localStorage.getItem('empId')}`);
+        //   console.log(experienceResponse);
+        //   pastworkexperienceStatus = experienceResponse.data ? experienceResponse.data.status === true : false;
+        //   setworkStatus(pastworkexperienceStatus);
+        // } else {
+        //   // If fresher, set pastworkexperienceStatus to true
+        //   pastworkexperienceStatus=true;
+        //   setworkStatus(pastworkexperienceStatus);
+        // }
+        if (fresher === 'false') {
+          const experienceResponse = await axiosInstance.get(`/fetchWorkExperience/${localStorage.getItem('empId')}`);
+          console.log(experienceResponse);
+          
+          // Check if experienceResponse.data is not null or undefined
+          if (experienceResponse.data) {
+            // Assuming status is a boolean value, you can directly assign it
+            pastworkexperienceStatus = experienceResponse.data.status === true;
+            console.log(pastworkexperienceStatus);
+          } else {
+            // If experience data is not available, set pastworkexperienceStatus to false
+            pastworkexperienceStatus = false;
+          }
+          
+          setworkStatus(pastworkexperienceStatus);
+        } else {
+          // If fresher, set pastworkexperienceStatus to true
+          pastworkexperienceStatus = true;
+          setworkStatus(pastworkexperienceStatus);
+        }
         setStatus({
-          personaldetailsStatus,
-          educationdetailsStatus,
-          bankingdetailsStatus
-        });
-        // console.log(educationalResponse.data.body.status);
-        // console.log(educationalResponse);
-        // console.log(personalResponse);
-        // console.log(bankingResponse);
-        // localStorage.setItem('personalStatus', personalResponse.data.body.status);
-        // localStorage.setItem('educationalStatus', educationalResponse.data.body.status);
-        // localStorage.setItem('bankingStatus', bankingResponse.data.body.status);
+                  personaldetailsStatus,
+                  educationdetailsStatus,
+                  bankingdetailsStatus,
+                  pastworkexperienceStatus,
+                  uploaddocumentsStatus
+                  
+                });
+        
+        console.log(status);
+  
+        // Set email in local storage
         localStorage.setItem('email', personalResponse.data.body.emailId);
-        // console.log(personaldetailsStatus);
-        // console.log(educationdetailsStatus);
-        // console.log(bankingdetailsStatus);
       } catch (error) {
         console.error("Error fetching users data:", error);
       }
     };
+  
     fetchData();
-  }, []);
-
-
+  }, [fresher, username]);
+  
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
   const renderAccount = (
     <Box
@@ -93,12 +204,21 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
     </Box>
   );
+  const handleNavItemClick = (collapseId) => {
+    const collapseElement = document.getElementById(collapseId);
+    if (collapseElement) {
+      const bsCollapse = new window.bootstrap.Collapse(collapseElement, {
+        toggle: true,
+      });
+      bsCollapse.hide();
+    }
+  };
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
       <div className="accordion accordion-flush" id="accordionFlushExample">
         <div className="accordion-item">
           <h2 className="accordion-header" id="flush-headingOne">
-          <button
+            <button
               className="accordion-button collapsed"
               type="button"
               data-bs-toggle="collapse"
@@ -106,11 +226,11 @@ export default function Nav({ openNav, onCloseNav }) {
               aria-expanded="false"
               aria-controls="flush-collapseOne"
               style={{
-                height:"57px",
+                height: "57px",
                 background: 'linear-gradient(90deg, #003A74, #006AD5)',
                 color: "white",
-                borderRadius: '10px', /* Adjust the value as needed */
-                padding: '10px 20px' /* Add padding for better appearance */
+                borderRadius: '10px',
+                padding: '10px 20px'
               }}
             >
               <img
@@ -123,22 +243,27 @@ export default function Nav({ openNav, onCloseNav }) {
           </h2>
           <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
             <div className="accordion-body">{navConfigProfile.map((item) => (
-              <NavItem key={item.title}
-              item={item}
-              status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
-              pathname={pathname}/>
+              
+              <NavItem
+                key={item.title}
+                item={item}
+                status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
+                pathname={pathname}
+                onClick={() => handleNavItemClick('flush-collapseOne')}
+              />
+              
             ))}</div>
           </div>
         </div>
-        <div className="accordion-item" style={{marginTop:"3px"}}>
+        <div className="accordion-item" style={{ marginTop: "3px" }}>
           <h2 className="accordion-header" id="flush-headingTwo">
-          <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" style={{
-                height:"57px",
-                background: 'linear-gradient(90deg, #003A74, #006AD5)',
-                color: "white",
-                borderRadius: '10px', /* Adjust the value as needed */
-                padding: '10px 20px' /* Add padding for better appearance */
-              }}>
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" style={{
+              height: "57px",
+              background: 'linear-gradient(90deg, #003A74, #006AD5)',
+              color: "white",
+              borderRadius: '10px',
+              padding: '10px 20px'
+            }}>
               <img
                 src="https://static.vecteezy.com/system/resources/previews/015/081/211/non_2x/doc-file-format-3d-rendering-isometric-icon-png.png"
                 alt="doc"
@@ -149,22 +274,25 @@ export default function Nav({ openNav, onCloseNav }) {
           </h2>
           <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
             <div className="accordion-body">{navConfigDocumentation.map((item) => (
-              <NavItem key={item.title}
-              item={item}
-              status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
-              pathname={pathname} />
+              <NavItem
+                key={item.title}
+                item={item}
+                status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
+                pathname={pathname}
+                onClick={() => handleNavItemClick('flush-collapseTwo')}
+              />
             ))}</div>
           </div>
         </div>
-        <div className="accordion-item" style={{marginTop:"3px"}}>
+        <div className="accordion-item" style={{ marginTop: "3px" }}>
           <h2 className="accordion-header" id="flush-headingThree">
-          <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" style={{
-                height:"57px",
-                background: 'linear-gradient(90deg, #003A74, #006AD5)',
-                color: "white",
-                borderRadius: '10px', /* Adjust the value as needed */
-                padding: '10px 20px' /* Add padding for better appearance */
-              }}>
+            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" style={{
+              height: "57px",
+              background: 'linear-gradient(90deg, #003A74, #006AD5)',
+              color: "white",
+              borderRadius: '10px',
+              padding: '10px 20px'
+            }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3482/3482505.png"
                 alt="Training"
@@ -175,11 +303,13 @@ export default function Nav({ openNav, onCloseNav }) {
           </h2>
           <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
             <div className="accordion-body"> {navConfigTraining.map((item) => (
-              <NavItem key={item.title}
-              item={item}
-              status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
-              pathname={pathname} />
-              
+              <NavItem
+                key={item.title}
+                item={item}
+                status={status[`${item.title.toLowerCase().replace(/\s+/g, '')}Status`]}
+                pathname={pathname}
+                onClick={() => handleNavItemClick('flush-collapseThree')}
+              />
             ))}</div>
           </div>
         </div>
@@ -188,18 +318,18 @@ export default function Nav({ openNav, onCloseNav }) {
           type="button"
           onClick={() => { navigate("/feedback") }} // Specify the URL of the feedback page
           style={{
-            marginTop:"4px",
-            width:"247px",
-            height:"57px",
+            marginTop: "4px",
+            width: "247px",
+            height: "57px",
             background: 'linear-gradient(90deg, #003A74, #006AD5)',
             color: "white",
-            borderRadius: '10px', /* Adjust the value as needed */
-            padding: '10px 20px', /* Add padding for better appearance */
+            borderRadius: '10px',
+            padding: '10px 20px',
             display: 'flex',
-            alignItems: 'center', /* Align items vertically */
-            justifyContent: 'flex-start', /* Align items to the left */
-            paddingLeft: '20px', /* Add left padding for spacing */
-            borderColor:"transparent"
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            paddingLeft: '20px',
+            borderColor: "transparent"
           }}
         >
           <img
@@ -249,7 +379,7 @@ export default function Nav({ openNav, onCloseNav }) {
         <Box
           sx={{
             height: 1,
-            position: 'fixed',
+            position: 'sticky',
             width: NAV.WIDTH,
             borderRight: (theme) => `solid 1px ${theme.palette.divider}`,
           }}
@@ -276,13 +406,15 @@ Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
 };
-function NavItem({ item, status, pathname }) {
+function NavItem({ item, status, pathname,onClick}) {
   const active = item.path === pathname;
+  console.log(item.title," ",status);
   console.log(status);
   return (
     <ListItemButton
       component={RouterLink}
       href={item.path}
+      onClick={onClick}
       sx={{
         minHeight: 44,
         borderRadius: 0.75,
@@ -290,27 +422,23 @@ function NavItem({ item, status, pathname }) {
         color: 'black',
         textTransform: 'capitalize',
         fontWeight: 'fontWeightMedium',
-        bgcolor: status === true ?'#C8E6C9':'#FFCCCB',
+        bgcolor: status === true ?'#C8E6C9': status === false ?'#FFCCCB':(theme) => alpha(theme.palette.grey[600], 0.08),
         ...(active && {
           color: 'primary.main',
           fontWeight: 'fontWeightSemiBold',
-          // bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
-          // '&:hover': {
-          //   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
-          // },
         }),
       }}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+      <Box component="span" sx={{ width: 26, height: 24, mr: 2 }}>
         {item.icon}
       </Box>
       <Box component="span">{item.title}</Box>
     </ListItemButton>
   );
 }
-
 NavItem.propTypes = {
   item: PropTypes.object,
   status: PropTypes.bool,
   pathname: PropTypes.string,
+  onClick: PropTypes.func,
 };

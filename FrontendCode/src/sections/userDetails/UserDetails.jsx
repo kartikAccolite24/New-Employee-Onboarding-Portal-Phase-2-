@@ -1,5 +1,6 @@
 import axios from "axios";
 import {React ,useEffect,useState } from "react";
+import { Modal, TextField } from '@mui/material'; // Ensure you import these components
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import {
   Box,
@@ -7,27 +8,48 @@ import {
   Container,
   Typography,
   IconButton
+
 } from "@mui/material";
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { PersonPin } from "@mui/icons-material";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UserDetails() {
+  const [openRejectModal, setOpenRejectModal] = useState(false);
+const [rejectComment, setRejectComment] = useState("");
+
   const [personal,setPersonal] = useState({});
   const [ educational , setEducational]= useState({});
   const [ banking , setBanking]= useState({});
   const [isApproval , setApproval]=useState("");
   const [documentsData, setDocumentsData] = useState([]);
+  const [ experience, setExperience] = useState({});
+  
   const navigate = useNavigate();
+  const [fresher , setFresher] = useState("");
   const [documentImage, setDocumentImage] = useState("");
   const documentsNames = ["Aadhar Card", "Pan Card", "Passport size photograph","10th Marksheet","12th Marksheet","University Marksheet","Passbook/Cancelled Cheque"];
+
+  // const docIds = localStorage.getItem("documentsId");
+  // console.log(docIds);
+  let docIds="";
+
   
+
   const location = useLocation();
-  const {jwtToken , idToSend} = location.state;
+  const {jwtToken , idToSend,username} = location.state;
   console.log(idToSend);
   console.log(jwtToken);
+  console.log(username);
+
   const empId=idToSend;
+
   localStorage.setItem('isApproval',isApproval);
+
+
   const fetchUsersData = async () => {
+
     const axiosInstance = axios.create({
       baseURL: "http://localhost:8080", // Your API base URL
       headers: {
@@ -39,16 +61,39 @@ export default function UserDetails() {
       const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${empId}`);
       const educationalResponse = await axiosInstance.get(`/fetchEducationalDetails/${idToSend}`);
       const bankingResponse = await axiosInstance.get(`/fetchBankingDetails/${idToSend}`);
+      const userDetials =  await axiosInstance.get(`/getUser/${username}`);   
+      // console.log(userDetials.data.fresher);
+      setFresher(userDetials.data.fresher);
+      console.log(fresher);
+      if(fresher===false){
+       const experienceResponse = await axiosInstance.get(`/fetchWorkExperience/${idToSend}`);
+       setExperience(experienceResponse.data);
+      }else{
+        setExperience(null);
+      }
+      console.log(experience);
       const employeeId = personalResponse.data.body.empId;
       console.log(employeeId);
-      // const documentsResponse = await axiosInstance.get(`file/documents/${employeeId}`);
-      // console.log(documentsResponse.data);
+
+      
+      // const experienceResponse = await axiosInstance.get(`fetchWorkExperience/${empId}`);
+      // console.log(experienceResponse);
+      // setExperience(experienceResponse.data);
+
+      docIds = userDetials;
+      console.log(docIds);
+      console.log(docIds.data.documentMap);
+      setDocumentsData(docIds.data.documentMap);
+
       setPersonal(personalResponse.data.body);
       setEducational(educationalResponse.data.body);
       setBanking(bankingResponse.data.body);
-      setDocumentsData(documentsResponse.data);
-      console.log(documentsData);
-      // console.log(personal);
+      
+      // setDocumentsData(localStorage.getItem("documentsId"));
+      // console.log(documentsData);
+
+
+   
       // console.log(documentsResponse)
       // console.log(response.data);
       // console.log(response);
@@ -63,6 +108,7 @@ export default function UserDetails() {
       console.error("Error fetching users data:", error);
     }
   };
+
   const handleDocClick = async (docId) => {
     try {
       const axiosInstance = axios.create({
@@ -76,7 +122,9 @@ export default function UserDetails() {
       const response = await axiosInstance.get(`file/download/${docId}`, {
         responseType: 'blob'
       });
+
       const contentType = response.headers['content-type'];
+
       if (contentType === 'application/pdf') {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
@@ -89,13 +137,18 @@ export default function UserDetails() {
       console.error("Error fetching document:", error);
     }
   };
+
+
   useEffect(() => {
+
     fetchUsersData();
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]); 
+
   const handleSubmit = (event) => {
     // event.preventDefault();
+
     // axios
     //   .post("/api/personal-details", formData)
     //   .then((response) => {
@@ -105,40 +158,106 @@ export default function UserDetails() {
     //     console.error(error);
     //   });
   };
+
   const handleApprove = async() => {
     const axiosInstance = axios.create({
-      baseURL: "http://localhost:8080", // Your API base URL
+      baseURL: "http://localhost:8080",
       headers: {
         "Authorization": `Bearer ${jwtToken}`
       }
     });
-    
-    const response = await axiosInstance.put(`/setApprovalStatus/${empId}?status=APPROVED`);
-    setApproval(response.data.isApproved);
-    console.log(response);
-    console.log(isApproval);
- 
-  };
-  const handleReject = async() => {
-    const axiosInstance = axios.create({
-      baseURL: "http://localhost:8080", // Your API base URL
-      headers: {
-        "Authorization": `Bearer ${jwtToken}`
-      }
-    });
-    axiosInstance.put(`/setApprovalStatus/${empId}?status=REJECTED`).then((response) => {
-      console.log(response.data);  
+    try {
+      const response = await axiosInstance.put(`/setApprovalStatus/${empId}?status=APPROVED&adminRejectionComment=""`);
       setApproval(response.data.isApproved);
-    }).catch((error) => {
-      console.error(error); 
+      console.log(response);
+      console.log(isApproval);
+      toast.success('Application Approved!!');
+      // alert('')
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to Approve Application!');
+    }
+  };
+
+  const handleReject = () => {
+    setOpenRejectModal(true);
+  };
+  
+  const handleRejectSubmit = async () => {
+    const axiosInstance = axios.create({
+      baseURL: "http://localhost:8080",
+      headers: {
+        "Authorization": `Bearer ${jwtToken}`
+      }
     });
-    // isApproved="REJECTED";
-    // localStorage.setItem("isApproved",isApproved);
-    console.log(isApproval);
+    try {
+      const response = await axiosInstance.put(`/setApprovalStatus/${empId}?status=REJECTED&adminRejectionComment=${rejectComment}`);
+      setApproval(response.data.isApproved);
+      toast.success('Application Rejected!!');
+      setOpenRejectModal(false);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to Reject Application!');
+    }
   };
-  const handleViewClick = (pdfUrl) => {
-    window.open(pdfUrl, "_blank");
+  
+  const handleModalClose = () => {
+    setOpenRejectModal(false);
   };
+  
+  // const handleReject = async() => {
+  //   const axiosInstance = axios.create({
+  //     baseURL: "http://localhost:8080",
+  //     headers: {
+  //       "Authorization": `Bearer ${jwtToken}`
+  //     }
+  //   });
+  //   try {
+  //     const response = await axiosInstance.put(`/setApprovalStatus/${empId}?status=REJECTED`);
+  //     setApproval(response.data.isApproved);
+  //     console.log(response.data);
+  //     toast.success('Application Rejected!!');
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error('Failed to Reject Application!');
+  //   }
+  // };
+
+  const handleViewClick =async(documentId) => {
+
+    console.log(documentId);
+    try {
+      const axiosInstance = axios.create({
+        baseURL: "http://localhost:8080/file", // Your API base URL
+        headers: {
+          "Authorization": `Bearer ${jwtToken}`
+        }
+      });
+      
+      // Make a GET request to view the document
+      const response = await axiosInstance.get(`/view/${documentId}`, {
+        responseType: 'blob'
+      });
+      console.log(response);
+  
+      const contentType = response.headers['content-type'];
+  
+      if (contentType === 'application/pdf') {
+        // If the document is a PDF, open it in a new tab
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } else {
+        // If it's an image or other format, handle accordingly
+        const imageUrl = URL.createObjectURL(response.data);
+        setDocumentImage(imageUrl);
+        // Now you can display the image wherever you want in your UI
+      }
+    } catch (error) {
+      console.error("Error fetching document:", error);
+    }
+  };
+
   return (
     <Container>
       <Box sx={{ mt: 5,
@@ -233,6 +352,7 @@ export default function UserDetails() {
           </form>
         </Box>
       
+
        <Box sx={{ mt: 5 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Educational Details
@@ -326,17 +446,57 @@ export default function UserDetails() {
           </form>
         </Box>
        </Box>
+       {fresher===false && (<Box sx={{ mt: 5 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Experience Details
+        </Typography>
+        <Box
+        >
+          <form onSubmit={handleSubmit}>
+            <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+              <Box sx={{ width: "50%", paddingRight: 2 }}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                Previous Company:
+                </Typography>
+                {/* (fresher === false && experience )?experience.fieldname:""; */}
+                <Typography>{(fresher===false && experience)?experience.previousCompany:""}</Typography>
+              </Box>
+              <Box sx={{ width: "50%", paddingRight: 2 }}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                Job Title:
+                </Typography>
+                <Typography>{(fresher===false && experience)?experience.jobPosition:""}</Typography>
+              </Box>
+              <Box sx={{ width: "50%", paddingRight: 2 }}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                Year Of Service:
+                </Typography>
+                <Typography>{(fresher===false && experience)?experience.yearsOfExperience:""}</Typography>
+              </Box>
+              <Box sx={{ width: "50%", paddingRight: 2 }}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                Contact Details :
+                </Typography>
+                <Typography>{(fresher===false && experience)?experience.contactDetails:""}</Typography>
+              </Box>
+              
+            </Box>
+          
+          </form>
+        </Box>
+       </Box>)}
        <Box sx={{ mt: 5 }}>
         <Box>
           <form onSubmit={handleSubmit}>
-            <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
             <Typography variant="h4" component="h1" gutterBottom>
               Documents
             </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Aadhar Card:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc1)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -344,7 +504,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Pan Card:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc2)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -352,7 +512,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Passport size photograph:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc3)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -360,7 +520,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   10th Marksheet:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc4)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -368,7 +528,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   12th Marksheet:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc5)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -376,7 +536,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   University Marksheet:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc6)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -384,7 +544,7 @@ export default function UserDetails() {
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Passbook/Cancelled Cheque:
-                  <IconButton onClick={() => handleViewClick(personal.pdfUrl)}>
+                  <IconButton onClick={() => handleViewClick(documentsData.doc7)}>
                   <VisibilityOutlinedIcon />
                   </IconButton>
                 </Typography>
@@ -400,6 +560,7 @@ export default function UserDetails() {
                 </Typography>
               </Box>
             ))} */}
+
             </Box>
             {/* Approve and Reject Buttons */}
             <Box
@@ -420,6 +581,46 @@ export default function UserDetails() {
         </Box>
       </Box>
       </Box>
+      <Modal
+  open={openRejectModal}
+  onClose={handleModalClose}
+  aria-labelledby="reject-modal-title"
+  aria-describedby="reject-modal-description"
+>
+  <Box sx={{
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  }}>
+    <Typography id="reject-modal-title" variant="h6" component="h2">
+      Reject Application
+    </Typography>
+    <TextField
+      id="reject-modal-description"
+      label="Reason for Rejection"
+      multiline
+      rows={4}
+      fullWidth
+      value={rejectComment}
+      onChange={(e) => setRejectComment(e.target.value)}
+      sx={{ mt: 2 }}
+    />
+    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+      <Button variant="contained" color="secondary" onClick={handleRejectSubmit}>
+        Submit
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleModalClose}>
+        Cancel
+      </Button>
+    </Box>
+  </Box>
+</Modal>
     </Container>
   );
 }

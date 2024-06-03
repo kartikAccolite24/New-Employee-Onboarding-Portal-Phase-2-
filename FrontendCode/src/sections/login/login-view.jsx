@@ -233,8 +233,8 @@ export default function LoginView() {
         <div className="col-md-6">
           <img src="https://cdni.iconscout.com/illustration/premium/thumb/welcome-to-team-2931995-2459063.png?f=webp" alt="Welcome" className="img-fluid" style={{ width: '500px', height: '300px' }} />
           <div className='welcome-text'>
-            <p><b>Welcome to Bounteous X Accolite !</b></p>
-            <p style={{ fontWeight: "400", fontSize: "smaller", fontStyle: "normal" }}><i>Discover Boundless Digital Possibilities with us</i></p>
+            <p style={{fontFamily:"Poppins", fontWeight: "400",fontSize:"25px"}}><b>Welcome to Bounteous X Accolite !</b></p>
+            <p style={{  fontSize: "smaller", fontStyle: "normal" ,fontFamily:"Poppins",fontWeight:"50px"}}>Discover Boundless Digital Possibilities with us</p>
           </div>
         </div>
 
@@ -305,7 +305,7 @@ export default function LoginView() {
                 onClick={forgotPasswordHandle}
                 id='forgotButton'
               >
-                <u>Forgot Password?</u>
+                {/* <u>Forgot Password?</u> */}
               </button>
             </div>
           </form>

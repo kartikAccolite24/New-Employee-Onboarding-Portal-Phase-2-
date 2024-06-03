@@ -1,69 +1,46 @@
 import SvgColor from 'src/components/svg-color';
-import profile from  '../../../public/assets/icons/navbar/profile.png';
-
 // ----------------------------------------------------------------------
-
-const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
+const icon = (url) => (
+  <SvgColor src={url} sx={{ width: 1, height: 1 }} />
 );
-
- export const navConfigProfile = [
-  
+export const navConfigProfile = [
   {
     title: 'personal details',
-    path: '/personal  ',
-    icon: icon('ic_analytics'),
+    path: '/personal',
+    icon: icon('https://cdn-icons-png.freepik.com/256/31/31625.png?semt=ais_hybrid'),
   },
   {
     title: 'education details',
-    path: '/education  ',
-    icon: icon('ic_analytics'),
-  },
-  {
-    title: 'Past Work Experience',
-    path: '/experience  ',
-    icon: icon('ic_analytics'),
+    path: '/education',
+    icon: icon('https://cdn-icons-png.flaticon.com/512/4729/4729436.png'),
   },
   {
     title: 'banking details',
-    path: '/banking  ',
-    icon: icon('ic_analytics'),
+    path: '/banking',
+    icon: icon('https://cdn-icons-png.freepik.com/512/6317/6317814.png'),
   },
   {
-    title: 'Upload Documents',
-    path: '/UploadDocuments  ',
-    icon: icon('ic_analytics'),
+    title: 'past work experience',
+    path: '/experience',
+    icon: icon('https://cdn-icons-png.flaticon.com/128/2345/2345277.png'),
   },
-  
-  
+  {
+    title: 'upload documents',
+    path: '/UploadDocuments',
+    icon: icon('https://cdn.iconscout.com/icon/premium/png-256-thumb/upload-resume-job-cv-letter-33804.png'),
+  },
 ];
- export const navConfigDocumentation = [
-
-  
-
+export const navConfigDocumentation = [
   {
     title: 'Company Documents',
-    path: '/documents  ',
-    icon: icon('ic_analytics'),
+    path: '/documents',
+    icon: icon('https://cdn0.iconfinder.com/data/icons/privacy-policy-5/80/private__lock__folder__files_-512.png'),
   },
-  
-  
 ];
- export const navConfigTraining = [
-  
-  
+export const navConfigTraining = [
   {
     title: 'Training Modules',
-    path: '/training  ',
-    icon: icon('ic_analytics'),
+    path: '/training',
+    icon: icon('https://cdn-icons-png.freepik.com/256/991/991922.png?semt=ais_hybrid'),
   },
- 
-  // {
-  //   title: 'faqs',
-  //   path: '/FAQ',
-  //   icon: icon('ic_cart'),
-  // },
-  
 ];
- 
-// export { navConfigProfile, navConfigDocumentation, navConfigTraining};

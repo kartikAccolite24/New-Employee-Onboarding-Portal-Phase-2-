@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-// import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -47,6 +46,7 @@ export default function Navadmin({ openNav, onCloseNav }) {
         display: 'flex',
         borderRadius: 1.5,
         alignItems: 'center',
+        color: "black",
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
@@ -170,7 +170,6 @@ function NavItem({ item }) {
   const active = item.path === pathname;
 
   return (
-    
     <ListItemButton
       component={RouterLink}
       href={item.path}
@@ -178,24 +177,28 @@ function NavItem({ item }) {
         minHeight: 44,
         borderRadius: 0.75,
         typography: 'body2',
-        color: 'text.secondary',
+        color: 'white', // Set text color to white
+        background: 'linear-gradient(90deg, #003A74, #006AD5)',
         textTransform: 'capitalize',
-        fontWeight: 'fontWeightMedium',
+        fontWeight: 'fontWeightSemiBold',
         ...(active && {
-          color: 'primary.main',
+          color: 'white', // Ensure active item text is white
           fontWeight: 'fontWeightSemiBold',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
           },
         }),
+        '&:hover': {
+          color: 'white', // Ensure hover text color is white
+        },
       }}
     >
       <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
         {item.icon}
       </Box>
 
-      <Box component="span">{item.title} </Box>
+      <Box component="span">{item.title}</Box>
     </ListItemButton>
   );
 }

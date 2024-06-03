@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class    EmployeeFeedbackDetails {
+public class EmployeeFeedbackDetails {
 
     @Id
     @NonNull
@@ -27,4 +27,7 @@ public class    EmployeeFeedbackDetails {
 
     @NonNull
     private Boolean status = false;
+
+    @NonNull
+    private String name;
 }

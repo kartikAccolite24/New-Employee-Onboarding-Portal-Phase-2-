@@ -14,7 +14,7 @@ export default function AppPage() {
       <Helmet>
         <title>Bounteous Accolite Onboarding Portal </title>
       </Helmet>
-      <div style={{marginTop:"100px" , width:'85%'}} >
+      <div style={{marginTop:"60px" , width:'78%'}} >
         <AppView/>
       </div></div>
     </>

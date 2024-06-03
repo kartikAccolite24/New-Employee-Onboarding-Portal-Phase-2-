@@ -7,4 +7,5 @@ public interface EmployeeFeedbackDetailsService {
     public ResponseEntity<?> addFeedback(EmployeeFeedbackDetails feedback);
 
     public ResponseEntity<?> fetchFeedback(String empId);
+    public ResponseEntity<?> getAllFeedback();
 }

@@ -15,13 +15,15 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const username = localStorage.getItem('username');
+  const emailId = localStorage.getItem('emailId');
   const navigate = useNavigate();
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
   const handleClose = () => {
-    localStorage.removeItem('username');
-    localStorage.removeItem('password');
+    // localStorage.removeItem('username');
+    // localStorage.removeItem('password');
     navigate("/");
   };
   return (
@@ -40,14 +42,14 @@ export default function AccountPopover() {
       >
         <Avatar
           src={account.photoURL}
-          alt={account.displayName}
+          alt={username}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+         {username}
         </Avatar>
       </IconButton>
       <Popover
@@ -67,10 +69,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {emailId}
           </Typography>
         </Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -91,4 +93,4 @@ export default function AccountPopover() {
       </Popover>
     </>
   );
-}
+} 

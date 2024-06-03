@@ -16,7 +16,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 // Image component
 const ImageWithIcons = ({ onOpenNav }) => (
-  <Box sx={{ width: '1100', height: '350', position: 'relative' }}>
+  <Box sx={{ width: '11', height: '350', position: 'relative' }}>
     {/* <img
       src="https://lever-client-logos.s3.us-west-2.amazonaws.com/3f46748d-52fd-47dc-ba95-1172d582f4de-1706797958077.png" // Replace with your image URL
       alt=''
@@ -26,7 +26,7 @@ const ImageWithIcons = ({ onOpenNav }) => (
     <Box
       sx={{
         position: 'absolute',
-        top: 0,
+        top: -9,
         right: 0,
         bottom: 0,
         left: 0,
@@ -36,7 +36,7 @@ const ImageWithIcons = ({ onOpenNav }) => (
         padding: 2,
       }}
     >
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={2}>
         <LanguagePopover />
         <NotificationsPopover />
         <AccountPopover />

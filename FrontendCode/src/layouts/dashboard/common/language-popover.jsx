@@ -1,88 +1,37 @@
 import { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import Popover from '@mui/material/Popover';
-import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-// ----------------------------------------------------------------------
-
-// // const LANGS = [
-// //   {
-// //     value: 'en',
-// //     label: 'English',
-// //     icon: '/assets/icons/ic_flag_en.svg',
-// //   },
-// //   {
-// //     value: 'de',
-// //     label: 'German',
-// //     icon: '/assets/icons/ic_flag_de.svg',
-// //   },
-// //   {
-// //     value: 'fr',
-// //     label: 'French',
-// //     icon: '/assets/icons/ic_flag_fr.svg',
-// //   },
-// ];
-
-// ----------------------------------------------------------------------
-
 export default function LanguagePopover() {
-  const [open, setOpen] = useState(null);
   const navigate = useNavigate();
-  const handleOpen = (event) => {
-    // setOpen(event.currentTarget);
+
+  const handleNavigateToFAQ = () => {
     navigate("/Faq");
   };
 
-  // const handleClose = () => {
-  //   setOpen(null);
-  // };
-
   return (
-    <>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <IconButton
-        onClick={handleOpen}
         sx={{
           width: 40,
           height: 40,
-          ...(open && {
-            bgcolor: 'action.selected',
-          }),
+          
         }}
       >
-        <img src="https://w7.pngwing.com/pngs/443/103/png-transparent-computer-icons-icon-design-faq-question-face-icon-text-logo-desktop-wallpaper-thumbnail.png" alt=''/>
+        {/* You can add an icon or image inside the IconButton if needed */}
       </IconButton>
 
-      {/* <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 0,
-            mt: 1,
-            ml: 0.75,
-            width: 180,
-          },
-        }}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleNavigateToFAQ}
+        sx={{ ml: 2 ,   background: 'linear-gradient(90deg, #003A74, #006AD5)'  ,width:"40px",height:"40px"
+      }}
       >
-        {LANGS.map((option) => (
-          <MenuItem
-            key={option.value}
-            selected={option.value === LANGS[0].value}
-            onClick={() => handleClose()}
-            sx={{ typography: 'body2', py: 1 }}
-          >
-            <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
-
-            {option.label}
-          </MenuItem>
-        ))}
-      </Popover> */}
-    </>
+        FAQ?
+      </Button>
+    </Box>
   );
 }

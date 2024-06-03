@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Document(collection = "employee_login_details")
 @Data
@@ -35,10 +36,16 @@ public class EmployeeLoginDetails {
 
         // new code
         @NonNull
-        private List<String> documentIds;
-        // new code
+        private Map<String, String> documentMap;
+//        @NonNull
+//        private List<String> documentIds;
+//         new code/
         @NonNull
         private boolean applicationStatus;
+
+        @NonNull
+        private boolean fresher;
+
         // newest code
         // Enum definition
         public enum ApprovalStatus {
@@ -51,6 +58,7 @@ public class EmployeeLoginDetails {
         @NonNull
         private ApprovalStatus isApproved = ApprovalStatus.NOT_APPROVED;
         // newest code
+        private String adminRejectionComment;
 
 }
 

@@ -1,6 +1,8 @@
 import  { React,useState } from "react";
 import { useNavigate } from 'react-router-dom';
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import acc from "./Assets/Acco.jpg"
 import pic_1 from "./Assets/pic_8.jpg"
 import pic_2 from "./Assets/pic_6.jpg"
@@ -14,6 +16,16 @@ import pic_6 from "./Assets/pic_6.jpeg"
 export default function CoursePage() {
     const navigate = useNavigate();
     const pics = [acc,acc,acc,acc,acc,acc,pic_1, pic_2, pic_3, pic_4, pic_5, pic_6];
+    const settings = {
+        // Your settings for the Slider component
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      };
     const course = [" Bounteous x Accolite "," Bounteous x Accolite "," Bounteous x Accolite ","Bounteous x Accolite ","Bounteous x Accolite","Bounteous x Accolite ","Java", "Python", "Web", "Cyber Security", "Machine Learning", "Big Data"];
     const description = [
         "Discover boundless digital possibilities with Accolite",
@@ -32,6 +44,23 @@ export default function CoursePage() {
     
     return (
         <div>
+            <Slider {...settings} style={{ marginLeft: '-30px' }}>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a114440124164fff93e6d4c0__Darwinbox%20Banner_2%20copy.jpg" alt="Slide 1" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a46922613264fff93ee90d4__Embrace%20Excellence_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 2" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a89337630364fff93ecd7d3__One%20Team%2C%20One%20Dream_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a110357827864fff93eb3b0a__Fearless%20Thinkers_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+        <div>
+          <img src="https://darwinbox-data-sing.s3.ap-southeast-1.amazonaws.com/INSTANCE1_a611617e4a1b8a_69/banners/a39387173164fff93f1b97a__Cultivate%20Care%20%26%20Compasion_Darwinbox%20Banner_1%20copy.jpg" alt="Slide 3" />
+        </div>
+      </Slider>
             <div style={{ display: "flex", justifyContent: 'space-evenly', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }} >
                 {CreateCourseComponent(course, description, pics, navigate)}
             </div>

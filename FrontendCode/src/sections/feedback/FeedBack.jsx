@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import DashboardLayout from "src/layouts/dashboard";
 import "./Feedback.css";
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Feedback() {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const empId = localStorage.getItem('empId');
   const jwtToken = localStorage.getItem('jwtToken');
+  const username = localStorage.getItem('username');
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
@@ -25,10 +28,13 @@ function Feedback() {
       const response = await axiosInstance.post('/addFeedback', {
         empId,
         rating,
-        comment,
-        status:true
+        comments:comment,
+        status:true,
+        name:username
       });
       console.log(response);
+      toast.success("Feedback submitted!!")
+  
       // navigate('/education',{state:{empId , jwtToken }});
     }
     catch(error){
@@ -50,7 +56,7 @@ function Feedback() {
         <h2>How would you rate our Onboarding?</h2>
         <div className="rating-options">
         {['😠', '😞', '😐', '🙂', '😁'].map((emoji, index) => (
-            <button
+        <button
               type="button"
               key={index}
               className={`rating-button ${

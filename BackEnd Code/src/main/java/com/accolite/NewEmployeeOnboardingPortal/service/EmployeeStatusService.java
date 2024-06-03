@@ -32,8 +32,9 @@ public class EmployeeStatusService {
         EmployeeEducationalDetails educationalDetails = educationalDetailsRepository.findById(empId).orElse(null);
         EmployeeBankingDetails bankingDetails = bankingDetailsRepository.findById(empId).orElse(null);
         EmployeeLoginDetails employeeLoginDetails = loginDetailsRepository.findById(empId).orElse(null);
-        System.out.println(employeeLoginDetails.getDocumentIds().size());
+//      System.out.println(employeeLoginDetails.getDocumentIds().size());
         return personalDetails != null && educationalDetails != null && bankingDetails != null &&
-                personalDetails.getStatus() && educationalDetails.getStatus() && bankingDetails.getStatus() && (employeeLoginDetails.getDocumentIds().size()==12);
+                personalDetails.getStatus() && educationalDetails.getStatus() && bankingDetails.getStatus();
     }
+//    && (employeeLoginDetails.getDocumentIds().size()==12
 }

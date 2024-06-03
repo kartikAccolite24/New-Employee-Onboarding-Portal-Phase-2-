@@ -8,7 +8,7 @@ export default function experience() {
     <div style={{width:"25%"}}>
       <DashboardLayout/>
     </div>
-  <div style={{marginTop:"100px" , width:'85%'}} >
+  <div style={{marginTop:"100px" , width:'75%'}} >
         <EmployeeExperienceForm/>
       </div>
       </div>

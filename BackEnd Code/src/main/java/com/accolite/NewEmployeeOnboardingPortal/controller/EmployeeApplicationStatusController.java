@@ -30,8 +30,10 @@ public class EmployeeApplicationStatusController {
             employeeLoginDetails.get().setApplicationStatus(isComplete);
             employeeLoginService.addEmployee(employeeLoginDetails.get());
             System.out.println(employeeLoginDetails.get());
-
         }
         return ResponseEntity.ok(isComplete ? "Application Completed" : "Application Pending");
     }
+
+
+
 }

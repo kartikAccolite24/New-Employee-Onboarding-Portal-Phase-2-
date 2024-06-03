@@ -7,18 +7,21 @@ const icon = (name) => (
 );
 
 const navConfigadmin = [
- 
+  {
+    title: 'Add User',
+    path: '/addUser',
+    icon: icon('ic_lock'),
+  },
   {
     title: 'Employee List',
     path: '/user',
     icon: icon('ic_user'),
   },
-  
-  // {
-  //   title: 'userDetails',
-  //   path: '/userDetails',
-  //   icon: icon('ic_blog'),
-  // },
+  {
+    title: 'View Feedbacks',
+    path: '/viewFeedbacks',
+    icon: icon('ic_blog'),
+  },
   // {
   //   title: 'login',
   //   path: '/login',
