@@ -2,6 +2,7 @@ package com.accolite.NewEmployeeOnboardingPortal.service;
 
 import com.accolite.NewEmployeeOnboardingPortal.entity.EmployeeLoginDetails;
 import org.bson.types.ObjectId;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,8 @@ public interface EmployeeLoginService {
 //    EmployeeLoginDetails getEmployee(ObjectId empId);
 
     List<EmployeeLoginDetails> getAllEmployees();
+
+    public ResponseEntity<?> setPassword(List<String > usernameAndPassword);
 
     // new code
 }

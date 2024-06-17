@@ -3,6 +3,7 @@ package com.accolite.NewEmployeeOnboardingPortal.controller;
 import com.accolite.NewEmployeeOnboardingPortal.entity.EmployeeLoginDetails;
 import com.accolite.NewEmployeeOnboardingPortal.repository.EmployeeLoginDetailsRepository;
 //import com.accolite.NewEmployeeOnboardingPortal.repository.UserRepo;
+import com.accolite.NewEmployeeOnboardingPortal.service.EmailService;
 import com.accolite.NewEmployeeOnboardingPortal.service.EmployeeLoginService;
 import com.accolite.NewEmployeeOnboardingPortal.service.EmployeeStatusService;
 import org.slf4j.Logger;
@@ -32,11 +33,20 @@ public class EmployeeLoginDetailsController {
     private EmployeeLoginService employeeLoginService;
 
     @Autowired
+    private EmailService emailService;
+    @Autowired
     private EmployeeStatusService employeeStatusService;
+
+//    @PostMapping("/addUser")
+//    public String addUser(@RequestBody EmployeeLoginDetails employeeLoginDetails) {
+//        return employeeLoginService.addEmployeeLoginDetails(employeeLoginDetails);
+//    }
 
     @PostMapping("/addUser")
     public String addUser(@RequestBody EmployeeLoginDetails employeeLoginDetails) {
-        return employeeLoginService.addEmployeeLoginDetails(employeeLoginDetails);
+        String result = employeeLoginService.addEmployeeLoginDetails(employeeLoginDetails);
+        emailService.initiationMail(employeeLoginDetails.getUsername());
+        return result;
     }
 
     @PostMapping("/login")
@@ -210,6 +220,12 @@ public class EmployeeLoginDetailsController {
 //        return new ResponseEntity<>(empIds, HttpStatus.OK);
 //    }
 
+
+    @PutMapping("/setPassword")
+    public ResponseEntity<?> setPassword(@RequestBody List<String> usernameAndPassword){
+        return employeeLoginService.setPassword(usernameAndPassword);
+//        return new ResponseEntity<>(employeeLoginService.setPassword(employeeLoginDetails), HttpStatus.OK);
+    }
 
 
 }
