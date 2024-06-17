@@ -4,6 +4,7 @@ import com.accolite.NewEmployeeOnboardingPortal.entity.EmployeeLoginDetails;
 import com.accolite.NewEmployeeOnboardingPortal.repository.EmployeeLoginDetailsRepository;
 //import com.accolite.NewEmployeeOnboardingPortal.repository.UserRepo;
 import com.accolite.NewEmployeeOnboardingPortal.service.EmployeeLoginService;
+import com.accolite.NewEmployeeOnboardingPortal.service.EmployeeStatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class EmployeeLoginDetailsController {
@@ -28,6 +30,9 @@ public class EmployeeLoginDetailsController {
 
     @Autowired
     private EmployeeLoginService employeeLoginService;
+
+    @Autowired
+    private EmployeeStatusService employeeStatusService;
 
     @PostMapping("/addUser")
     public String addUser(@RequestBody EmployeeLoginDetails employeeLoginDetails) {
@@ -49,7 +54,77 @@ public class EmployeeLoginDetailsController {
         return employeeLoginDetailsRepository.findByRole("employee");
     }
 
+    @GetMapping("/getAllApprovedEmployees")
+    public ResponseEntity<List<EmployeeLoginDetails>> getAllApprovedEmployees() {
+        List<EmployeeLoginDetails> approvedEmployees = employeeLoginDetailsRepository.findByIsApproved(EmployeeLoginDetails.ApprovalStatus.APPROVED);
+        if (approvedEmployees.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(approvedEmployees, HttpStatus.OK);
+    }
 
+//    @GetMapping("/getAllPendingEmployees")
+//    public ResponseEntity<List<EmployeeLoginDetails>> getAllPendingEmployees() {
+//        List<EmployeeLoginDetails> rejectedEmployees = employeeLoginDetailsRepository.findByIsApproved(EmployeeLoginDetails.ApprovalStatus.NOT_APPROVED);
+//        if (rejectedEmployees.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(rejectedEmployees, HttpStatus.OK);
+//    }
+
+    @GetMapping("/getAllPendingEmployees")
+    public ResponseEntity<List<EmployeeLoginDetails>> getAllPendingEmployees() {
+        List<EmployeeLoginDetails> rejectedEmployees = employeeLoginDetailsRepository.findByIsApproved(EmployeeLoginDetails.ApprovalStatus.NOT_APPROVED);
+
+        List<EmployeeLoginDetails> pendingEmployees = rejectedEmployees.stream()
+                .filter(employee -> !employee.getApplicationStatus())
+                .collect(Collectors.toList());
+
+        if (pendingEmployees.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(pendingEmployees, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllRejectedEmployees")
+    public ResponseEntity<List<EmployeeLoginDetails>> getAllRejectedEmployees() {
+        List<EmployeeLoginDetails> rejectedEmployees = employeeLoginDetailsRepository.findByIsApproved(EmployeeLoginDetails.ApprovalStatus.REJECTED);
+        if (rejectedEmployees.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(rejectedEmployees, HttpStatus.OK);
+    }
+//    @GetMapping("/getAllUnderReview")
+//    public ResponseEntity<List<EmployeeLoginDetails>> getAllUnderReview() {
+//        logger.info("Fetching all employees under review");
+//        List<EmployeeLoginDetails> underReviewEmployees = employeeLoginDetailsRepository.findByApplicationStatusTrue();
+//        if (underReviewEmployees.isEmpty()) {
+//            logger.info("No employees under review found");
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        logger.info("Found {} employees under review", underReviewEmployees.size());
+//        return new ResponseEntity<>(underReviewEmployees, HttpStatus.OK);
+//    }
+
+
+
+    @GetMapping("/getAllUnderReview")
+    public ResponseEntity<List<EmployeeLoginDetails>> getAllUnderReview() {
+        logger.info("Fetching all employees under review and not approved");
+
+        // Assuming "NOT_APPROVED" is the status you're looking for
+        String notApprovedStatus = "NOT_APPROVED";
+        List<EmployeeLoginDetails> underReviewEmployees = employeeLoginDetailsRepository.findByApplicationStatusTrueAndIsApproved(notApprovedStatus);
+
+        if (underReviewEmployees.isEmpty()) {
+            logger.info("No employees under review found with status NOT_APPROVED");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        logger.info("Found {} employees under review with status NOT_APPROVED", underReviewEmployees.size());
+        return new ResponseEntity<>(underReviewEmployees, HttpStatus.OK);
+    }
     // new code
 //    @GetMapping("/documents/{id}")
 //    public ResponseEntity<List<String>> getEmployeeDocuments(@PathVariable String id) {
@@ -104,15 +179,12 @@ public class EmployeeLoginDetailsController {
             employee.get().setAdminRejectionComment(adminRejectionComment);
         }
         employee.get().setIsApproved(status);
-
 //        if (employee == null) {
 //            return new ResponseEntity<>("Employee not found", HttpStatus.NOT_FOUND);
 //        }
 //        employeeLoginService.addEmployee(employee.get());
 //        return new ResponseEntity<>("Approval status updated successfully", HttpStatus.OK);
-
         return new ResponseEntity<>(employeeLoginService.addEmployee(employee.get()), HttpStatus.OK);
-
     }
 
 
@@ -128,5 +200,17 @@ public class EmployeeLoginDetailsController {
             return new ResponseEntity<>("Employee Not Present!", HttpStatus.OK);
         }
     }
+
+//    @GetMapping("/getEmployeesWithAllStatusesTrue")
+//    public ResponseEntity<List<String>> getEmployeesWithAllStatusesTrue() {
+//        List<String> empIds = employeeStatusService.getEmployeesWithAllStatusesTrue();
+//        if (empIds.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(empIds, HttpStatus.OK);
+//    }
+
+
+
 }
 

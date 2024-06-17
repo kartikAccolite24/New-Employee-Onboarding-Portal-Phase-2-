@@ -11,6 +11,9 @@ import com.accolite.NewEmployeeOnboardingPortal.repository.EmployeePersonalDetai
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class EmployeeStatusService {
 
@@ -36,5 +39,17 @@ public class EmployeeStatusService {
         return personalDetails != null && educationalDetails != null && bankingDetails != null &&
                 personalDetails.getStatus() && educationalDetails.getStatus() && bankingDetails.getStatus();
     }
+
+//    public List<String> getEmployeesWithAllStatusesTrue() {
+//        List<EmployeePersonalDetails> personalDetailsList = personalDetailsRepository.findByStatusTrue();
+//        List<String> empIds = personalDetailsList.stream().map(EmployeePersonalDetails::getEmpId).collect(Collectors.toList());
+//
+//        return empIds.stream()
+//                .filter(this::isApplicationComplete)
+//                .collect(Collectors.toList());
+//    }
+
+
+
 //    && (employeeLoginDetails.getDocumentIds().size()==12
 }

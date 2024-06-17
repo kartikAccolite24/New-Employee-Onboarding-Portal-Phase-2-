@@ -9,6 +9,9 @@ import java.util.List;
 public interface EmployeeLoginDetailsRepository extends MongoRepository<EmployeeLoginDetails, String> {
     public EmployeeLoginDetails findByUsername(String username);
     public EmployeeLoginDetails findByPassword(String password);
-
+    public List<EmployeeLoginDetails> findByIsApproved(EmployeeLoginDetails.ApprovalStatus status);
     public List<EmployeeLoginDetails> findByRole(String role);
+    public List<EmployeeLoginDetails> findByApplicationStatusTrue(); // New method to find employees with applicationStatus = true
+    public List<EmployeeLoginDetails> findByApplicationStatusTrueAndIsApproved(String isApproved);
+
 }

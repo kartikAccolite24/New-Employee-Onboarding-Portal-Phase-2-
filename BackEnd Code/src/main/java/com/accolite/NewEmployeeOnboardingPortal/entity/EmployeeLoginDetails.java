@@ -46,6 +46,11 @@ public class EmployeeLoginDetails {
         @NonNull
         private boolean fresher;
 
+        public boolean getApplicationStatus() {
+                        return applicationStatus;
+        }
+
+
         // newest code
         // Enum definition
         public enum ApprovalStatus {

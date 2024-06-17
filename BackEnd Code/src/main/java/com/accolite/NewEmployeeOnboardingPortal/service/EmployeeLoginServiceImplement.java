@@ -25,7 +25,6 @@ public class EmployeeLoginServiceImplement implements EmployeeLoginService {
     public String validateEmployeeLoginDetails(EmployeeLoginDetails employeeLoginDetails) {
 
 //        System.out.println(employeeLoginDetailsRepository.findByUsername(employeeLoginDetails.getUsername()));
-
         if (employeeLoginDetailsRepository.findByUsername(employeeLoginDetails.getUsername()) == null || employeeLoginDetailsRepository.findByPassword(employeeLoginDetails.getPassword()) == null) {
             return "Wrong Login Credentials";
         } else if (
@@ -35,7 +34,6 @@ public class EmployeeLoginServiceImplement implements EmployeeLoginService {
                         &&
                         (employeeLoginDetailsRepository.findByPassword(employeeLoginDetails.getPassword()).getRole().equals(employeeLoginDetails.getRole()))) {
             return "Employee Logged in Successfully";
-
         }
         return "Wrong Login Credentials";
 
