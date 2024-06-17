@@ -22,9 +22,14 @@ export default function AccountPopover() {
     setOpen(event.currentTarget);
   };
   const handleClose = () => {
-    // localStorage.removeItem('username');
-    // localStorage.removeItem('password');
-    navigate("/");
+    localStorage.removeItem('username');
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('empId');
+    // localStorage.removeItem('employeeId');
+    // localStorage.removeItem('emailId');
+
+    // Redirect to login page
+    navigate('/');  
   };
   return (
     <>
@@ -41,7 +46,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
+          src={account.boy}
           alt={username}
           sx={{
             width: 36,

@@ -13,7 +13,7 @@ const navConfigadmin = [
     icon: icon('ic_lock'),
   },
   {
-    title: 'Employee List',
+    title: 'Employee Requests',
     path: '/user',
     icon: icon('ic_user'),
   },
@@ -22,11 +22,21 @@ const navConfigadmin = [
     path: '/viewFeedbacks',
     icon: icon('ic_blog'),
   },
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: icon('ic_lock'),
-  // },
+  {
+    title: 'Approved Employees',
+    path: '/approvedEmployees',
+    icon: icon('ic_lock'),
+  },
+  {
+    title: 'Rejected Employees',
+    path: '/rejectedEmployees',
+    icon: icon('ic_lock'),
+  },
+  {
+    title: 'Under Review Applications',
+    path: '/underReview',
+    icon: icon('ic_lock'),
+  },
   // {
   //   title: 'Not found',
   //   path: '/404',

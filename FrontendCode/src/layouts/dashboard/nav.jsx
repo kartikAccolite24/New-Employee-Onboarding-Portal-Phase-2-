@@ -195,7 +195,7 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" sx={{ mr: 1 }} />
+      <Avatar src={account.boy} alt="photoURL" sx={{ mr: 1 }} />
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">{localStorage.getItem('username')}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -251,6 +251,7 @@ export default function Nav({ openNav, onCloseNav }) {
                 pathname={pathname}
                 onClick={() => handleNavItemClick('flush-collapseOne')}
               />
+              
               
             ))}</div>
           </div>
@@ -411,6 +412,7 @@ function NavItem({ item, status, pathname,onClick}) {
   console.log(item.title," ",status);
   console.log(status);
   return (
+    <Box sx={{ marginBottom: 1 }}> 
     <ListItemButton
       component={RouterLink}
       href={item.path}
@@ -434,6 +436,7 @@ function NavItem({ item, status, pathname,onClick}) {
       </Box>
       <Box component="span">{item.title}</Box>
     </ListItemButton>
+    </Box>
   );
 }
 NavItem.propTypes = {

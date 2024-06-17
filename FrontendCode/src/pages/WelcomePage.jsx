@@ -11,7 +11,16 @@ import { Balance } from '@mui/icons-material';
   // const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   console.log(jwtToken);
+  const usernamee = localStorage.getItem('username');
+  const jwtTokenn = localStorage.getItem('jwtToken');
+  const empIdd = localStorage.getItem('empId');
 
+  // Check if user is logged in
+  useEffect(() => {
+    if (!usernamee || !jwtTokenn || !empIdd) {
+      navigate('/'); // Redirect to login if details are missing
+    }
+  }, [navigate]);
   useEffect(() => {
     // Function to calculate the number of days since joining
     const calculateDaysSinceJoining = () => {

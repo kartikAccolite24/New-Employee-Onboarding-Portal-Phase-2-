@@ -282,6 +282,13 @@ export default function BankingView() {
   const username = localStorage.getItem('username');
   const jwtToken = localStorage.getItem('jwtToken');
   const empId = localStorage.getItem('empId');
+
+  // Check if user is logged in
+  useEffect(() => {
+    if (!username || !jwtToken || !empId) {
+      navigate('/login'); // Redirect to login if details are missing
+    }
+  }, [navigate]);
   console.log(formData);
   useEffect(() => {
     const fetchData = async () => {

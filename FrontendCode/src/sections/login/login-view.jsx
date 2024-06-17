@@ -217,11 +217,11 @@ export default function LoginView() {
     document.getElementById('hidden-form').style = "display:'block"
   }
   return (
-    <div className="container border p-4" id="container" style={{ minHeight: '470px' }}>
-      <header className="text-center mt-3 mb-3 login-header">
-        <img src="https://lever-client-logos.s3.us-west-2.amazonaws.com/3f46748d-52fd-47dc-ba95-1172d582f4de-1706797958077.png" alt="logo" className="img-fluid" style={{ width: '750px', height: '90px' }} />
+    <div className="container border p-4" id="container" style={{ minHeight: '470px', borderRadius: '15px', height: '90%', width: '80%', marginTop: '30px', boxShadow: '1px 1px 5px black'}}>
+      {/* <header className="text-center mt-3 mb-3 login-header">
+        <img src="https://lever-client-logos.s3.us-west-2.amazonaws.com/3f46748d-52fd-47dc-ba95-1172d582f4de-1706797958077.png" alt="logo" className="img-fluid" style={{ width: '600px', height: '80px' }} />
 
-      </header>
+      </header> */}
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', borderRadius: '300px' }}>
         <form id="hidden-form" style={{ display: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
           {/* <label htmlFor="email">Email Id</label> */}
@@ -230,8 +230,8 @@ export default function LoginView() {
         </form>
       </div>
       <div className="row" id='login-page'>
-        <div className="col-md-6">
-          <img src="https://cdni.iconscout.com/illustration/premium/thumb/welcome-to-team-2931995-2459063.png?f=webp" alt="Welcome" className="img-fluid" style={{ width: '500px', height: '300px' }} />
+        <div className="col-md-6" style={{marginTop: '70px'}}>
+          <img src="https://cdni.iconscout.com/illustration/premium/thumb/welcome-to-team-2931995-2459063.png?f=webp" alt="Welcome" className="img-fluid" style={{ width: '400px', height: '250px' }} />
           <div className='welcome-text'>
             <p style={{fontFamily:"Poppins", fontWeight: "400",fontSize:"25px"}}><b>Welcome to Bounteous X Accolite !</b></p>
             <p style={{  fontSize: "smaller", fontStyle: "normal" ,fontFamily:"Poppins",fontWeight:"50px"}}>Discover Boundless Digital Possibilities with us</p>
@@ -240,7 +240,7 @@ export default function LoginView() {
 
         <div className="col-md-6 mt-4">
           <form onSubmit={handleSubmit} className='form-container'>
-            <div className="mb-4" style={{ margin: '0', padding: '0' }}>
+            <div className="mb-4" style={{ margin: '0', padding: '40px 40px', height: '450px'}}>
               {/* <div className="embtn text-center mt-10 buttons-box">
                 <button
                   type="button"
@@ -259,7 +259,11 @@ export default function LoginView() {
                   Admin
                 </button>
               </div> */}
-              <div className="text-center mt-10 login_register" id="group" style={{ marginTop: '2rem', padding: 0, boxSizing: 'border-box' }}>
+              {/* <div>ok</div> */}
+              <img src="https://lever-client-logos.s3.us-west-2.amazonaws.com/3f46748d-52fd-47dc-ba95-1172d582f4de-1706797958077.png" alt="logo" className="img-fluid" style={{ width: '500px' , marginTop:".0rem", marginBottom: '2.5rem' }} />
+ 
+              <div className="text-center mt-10 login_register" id="group" style={{ marginTop: '1rem', padding: 0, boxSizing: 'border-box' }}>
+                {/* <div>ok</div> */}
                 <button
                   type="button"
                   id="employee"
@@ -283,15 +287,15 @@ export default function LoginView() {
               <div className="mt-4 form-group">
                 {loginType === "employee" && <div>
                   {/* <label htmlFor="username">Username</label>  */}
-                  <input type="text" className="form-control" onChange={(event) => setUsername(event.target.value)} id="username" name='username' required placeholder='Username' /> </div>}
+                  <input type="text" style={{marginTop:'3rem'}} className="form-control" onChange={(event) => setUsername(event.target.value)} id="username" name='username' required placeholder='Username' /> </div>}
                 {loginType === "admin" && <div>
                   {/* <label htmlFor="admin">Admin name</label> */}
-                  <input type="text" className="form-control" onChange={(event) => setUsername(event.target.value)} id="adminName" name='adminName' required placeholder='AdminName' /> </div>}
+                  <input type="text" style={{marginTop:'3rem'}} className="form-control" onChange={(event) => setUsername(event.target.value)} id="adminName" name='adminName' required placeholder='AdminName' /> </div>}
 
               </div>
               <div className="mb-3 form-group">
                 {/* <label htmlFor="password">Password</label> */}
-                <input type="password" className="form-control" id="password" name='password' onChange={(event) => setPassword(event.target.value)} required placeholder='Password' minLength={0} />
+                <input type="password" style={{marginTop:'1rem'}}  className="form-control" id="password" name='password' onChange={(event) => setPassword(event.target.value)} required placeholder='Password' minLength={0} />
               </div>
               <div className="mb-1 text-center">
                 <button type="submit" className="btn mb-5 mt-3"
@@ -312,7 +316,7 @@ export default function LoginView() {
         </div>
       </div>
       <footer className="text-center mt-5">
-        <p>&copy; Bounteous X Accolite. All rights reserved.</p>
+        {/* <p>&copy; Bounteous X Accolite. All rights reserved.</p> */}
       </footer>
     </div>
   );

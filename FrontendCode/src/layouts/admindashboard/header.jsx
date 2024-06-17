@@ -38,7 +38,7 @@ const ImageWithIcons = ({ onOpenNav }) => (
     >
       <Stack direction="row" spacing={1}>
         {/* <LanguagePopover /> */}
-        {/* <NotificationsPopover /> */}
+        <NotificationsPopover />
         <AccountPopover />  
       </Stack>
     </Box>

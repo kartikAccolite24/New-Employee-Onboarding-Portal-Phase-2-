@@ -128,7 +128,9 @@ import Feedback from 'src/sections/feedback/FeedBack';
 import AddUser from 'src/sections/AddUser/AddUser';
 import FeedBackAdmin from 'src/sections/feedbackAdmin/view/FeedBackAdmin';
 import ProtectedRoute from 'src/components/ProtectedRoute'; // Import the ProtectedRoute component
-
+import ApprovedEmployees from 'src/sections/approvedEmployees/view/ApprovedEmployees';
+import RejectedEmployees from 'src/sections/RejectedEmployees/view/RejectedEmployees';
+import UnderReviewApplication from 'src/sections/underReviewApplications/view/UnderReviewApplication';
 // Loading component
 const Loading = () => (
   <div style={{ textAlign: 'center', marginTop: '20%' }}>
@@ -183,7 +185,11 @@ export default function Router() {
         { path: 'feedback', element: <ProtectedRoute><Feedback /></ProtectedRoute> },
         // { path: "feedback", element:<Feedback/>},
         { path: "viewFeedbacks", element:<FeedBackAdmin/>},
-        { path: "addUser", element:<AddUser />}
+        { path: "addUser", element:<AddUser />},
+        { path: "approvedEmployees", element:<ApprovedEmployees/>},
+        { path: "underReview", element:<UnderReviewApplication/>},
+        { path: "rejectedEmployees", element:<RejectedEmployees/>}
+
       ],
     },
     {

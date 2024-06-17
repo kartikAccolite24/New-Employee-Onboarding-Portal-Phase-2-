@@ -25,6 +25,11 @@ const [rejectComment, setRejectComment] = useState("");
   const [isApproval , setApproval]=useState("");
   const [documentsData, setDocumentsData] = useState([]);
   const [ experience, setExperience] = useState({});
+  const [ yearofExperience , SetYearsOfExperience] = useState('');
+  const [ jobTitle , setJobTitle] = useState('');
+  const [previousCompany , setPreviousCompany]=useState('');
+  const [ contactDetails,setContactDetails] = useState('');
+  const [ approvedResponse , setApprovedResponse] = useState('');
   
   const navigate = useNavigate();
   const [fresher , setFresher] = useState("");
@@ -61,19 +66,30 @@ const [rejectComment, setRejectComment] = useState("");
       const personalResponse = await axiosInstance.get(`/fetchPersonalDetails/${empId}`);
       const educationalResponse = await axiosInstance.get(`/fetchEducationalDetails/${idToSend}`);
       const bankingResponse = await axiosInstance.get(`/fetchBankingDetails/${idToSend}`);
-      const userDetials =  await axiosInstance.get(`/getUser/${username}`);   
+      const userDetials =  await axiosInstance.get(`/getUser/${username}`); 
+      const status = await axiosInstance.get('/allEmployee');
+      const approvedHere = await axiosInstance.get(`/getApprovalStatus/${idToSend}`);
+      setApprovedResponse(approvedHere.data[0]);
+
+      console.log(status)
       // console.log(userDetials.data.fresher);
       setFresher(userDetials.data.fresher);
-      console.log(fresher);
+      // console.log(userDetials.data.fresher);
       if(fresher===false){
        const experienceResponse = await axiosInstance.get(`/fetchWorkExperience/${idToSend}`);
+      //  console.log(experienceResponse);
+       SetYearsOfExperience(experienceResponse.data.yearsOfExperience);
+       setContactDetails(experienceResponse.data.contactDetails);
+       setJobTitle(experienceResponse.data.jobPosition);
+       setPreviousCompany(experienceResponse.data.previousCompany);
        setExperience(experienceResponse.data);
+      //  console.log(experience);
       }else{
         setExperience(null);
       }
-      console.log(experience);
+      // console.log(experience);
       const employeeId = personalResponse.data.body.empId;
-      console.log(employeeId);
+      // console.log(employeeId);
 
       
       // const experienceResponse = await axiosInstance.get(`fetchWorkExperience/${empId}`);
@@ -446,7 +462,7 @@ const [rejectComment, setRejectComment] = useState("");
           </form>
         </Box>
        </Box>
-       {fresher===false && (<Box sx={{ mt: 5 }}>
+       { experience && (<Box sx={{ mt: 5 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Experience Details
         </Typography>
@@ -459,32 +475,33 @@ const [rejectComment, setRejectComment] = useState("");
                 Previous Company:
                 </Typography>
                 {/* (fresher === false && experience )?experience.fieldname:""; */}
-                <Typography>{(fresher===false && experience)?experience.previousCompany:""}</Typography>
+                <Typography>{previousCompany}</Typography>
               </Box>
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                 Job Title:
                 </Typography>
-                <Typography>{(fresher===false && experience)?experience.jobPosition:""}</Typography>
+                <Typography>{jobTitle}</Typography>
               </Box>
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                 Year Of Service:
                 </Typography>
-                <Typography>{(fresher===false && experience)?experience.yearsOfExperience:""}</Typography>
+                <Typography>{yearofExperience}</Typography>
               </Box>
               <Box sx={{ width: "50%", paddingRight: 2 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                 Contact Details :
                 </Typography>
-                <Typography>{(fresher===false && experience)?experience.contactDetails:""}</Typography>
+                <Typography>{contactDetails}</Typography>
               </Box>
               
             </Box>
           
           </form>
         </Box>
-       </Box>)}
+       </Box>)
+       }
        <Box sx={{ mt: 5 }}>
         <Box>
           <form onSubmit={handleSubmit}>
@@ -563,6 +580,7 @@ const [rejectComment, setRejectComment] = useState("");
 
             </Box>
             {/* Approve and Reject Buttons */}
+            {(approvedResponse ==="REJECTED" || approvedResponse === "NOT_APPROVED") && 
             <Box
               sx={{
                 display: "flex",
@@ -577,6 +595,7 @@ const [rejectComment, setRejectComment] = useState("");
                 Reject
               </Button>
             </Box>
+             }
           </form>
         </Box>
       </Box>

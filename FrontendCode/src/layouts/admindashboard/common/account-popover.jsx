@@ -9,23 +9,39 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import { account } from 'src/_mock/account';
+
 // ----------------------------------------------------------------------
 const MENU_OPTIONS = [
+  // Add menu options here if needed
 ];
+
 // ----------------------------------------------------------------------
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const username = localStorage.getItem('username');
   const emailId = localStorage.getItem('emailId');
   const navigate = useNavigate();
+
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
+
   const handleClose = () => {
-    // localStorage.removeItem('username');
-    // localStorage.removeItem('password');
-    navigate("/");
+    setOpen(null);
   };
+
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem('username');
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('empId');
+    // localStorage.removeItem('employeeId');
+    // localStorage.removeItem('emailId');
+
+    // Redirect to login page
+    navigate('/');
+  };
+
   return (
     <>
       <IconButton
@@ -49,7 +65,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-         {username}
+          {username}
         </Avatar>
       </IconButton>
       <Popover
@@ -85,7 +101,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

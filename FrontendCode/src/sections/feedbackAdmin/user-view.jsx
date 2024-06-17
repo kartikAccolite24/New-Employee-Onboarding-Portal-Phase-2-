@@ -11,7 +11,7 @@ const UserView = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [usersData, setUsersData] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate();f
   // const location = useLocation();
   // const { username,empId ,jwtToken} = location.state;
   const jwtToken = localStorage.getItem('jwtToken');
@@ -106,7 +106,7 @@ const UserView = () => {
   return (
     <Box>
       <h4 style={{ fontWeight: "bold", marginLeft: "5px", marginBottom: "20px", marginTop: "5px" }}>
-        Employee Requests
+        Employee List
       </h4>
       <Box height="80vh" fontSize="larger">
         <DataGrid
