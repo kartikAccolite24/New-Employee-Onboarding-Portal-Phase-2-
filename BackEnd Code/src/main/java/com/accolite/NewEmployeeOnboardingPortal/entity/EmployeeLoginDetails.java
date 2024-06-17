@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,13 @@ public class EmployeeLoginDetails {
         @Indexed(unique = true)
         @NonNull
         private String username;
+
+        @NonNull
+        private String name;               // name added 11/06/2024
+
+        @NonNull
+        private Date doj;
+
         @NonNull
         private String password;
         @NonNull

@@ -6,6 +6,8 @@ import com.accolite.NewEmployeeOnboardingPortal.repository.EmployeeLoginDetailsR
 //import com.accolite.NewEmployeeOnboardingPortal.repository.EmployeeRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -103,6 +105,18 @@ public class EmployeeLoginServiceImplement implements EmployeeLoginService {
     public EmployeeLoginDetails updateEmployee(EmployeeLoginDetails employee) {
         return employeeLoginDetailsRepository.save(employee);
     }
+
+    @Override
+    public ResponseEntity<?> setPassword(List<String> usernameAndPassword) {
+        Optional<EmployeeLoginDetails> fetchedEmployee = Optional.ofNullable(employeeLoginDetailsRepository.findByUsername(usernameAndPassword.get(0)));
+        if(fetchedEmployee.isPresent()){
+            fetchedEmployee.get().setPassword(usernameAndPassword.get(1));
+            employeeLoginDetailsRepository.save(fetchedEmployee.get());
+            return new ResponseEntity<>("Password Set Successfully", HttpStatus.OK);
+        }
+        else return new ResponseEntity<>("Failed to Set Password", HttpStatus.BAD_REQUEST);
+    }
+
 
     // new code
 }
