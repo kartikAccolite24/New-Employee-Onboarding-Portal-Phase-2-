@@ -7,6 +7,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
+import { Stack, useTheme ,IconButton} from "@mui/material";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+
 import {
   Box,
   Button,
@@ -52,6 +56,38 @@ export default function UploadDocumentView() {
     };
     fetchData();
   }, []);
+
+  
+  const handleViewClick = (pdfUrl) => {
+    window.open(pdfUrl, "_blank");
+  };
+  const handleDownloadClick = (pdfUrl, documentName) => {
+    downloadPDF(pdfUrl, documentName);
+  };
+  // const downloadPDF = (pdfUrl, documentName) => {
+  //   const doc = new window.JsPDF();
+  //   doc.text("Downloaded PDF Content", 10, 10);
+  //   const blob = doc.output('blob');
+  //   const url = URL.createObjectURL(blob);
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = `${documentName}.pdf`;
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  //   URL.revokeObjectURL(url);
+  // };
+
+  const downloadPDF = (pdfUrl, documentName) => {
+    
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${documentName}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
       const formDataToSend = new FormData();
@@ -144,35 +180,40 @@ export default function UploadDocumentView() {
         </div>
       </Slider>
       <form onSubmit={handleSubmit}>
-        <Box p={2} mb={2} bgcolor={backgroundColors[0]} borderRadius={0}>
-          {/* <Typography variant="h4" gutterBottom >
-            Upload Documents
-          </Typography> */}
-          <h4 style={{ fontWeight: "bold", marginLeft: "5px", marginBottom: "20px", marginTop: "30px" }}>
-          Upload documents
-          </h4>
-          <Box display="flex" flexWrap="wrap">
-            {/* Aadhaar Card */}
-            <Box width="50%" p={2}>
-              <Typography variant="h6" gutterBottom>
-                Aadhaar Card
-              </Typography>
-              <FormControl fullWidth>
-                <input
-                  type="file"
-                  name="Aadhar"
-                  accept="*/*"
-                  required
-                  onChange={handleChange}
-                  disabled={isApproved ==="APPROVED"?true:false}
-                />
-              </FormControl>
-            </Box>
+      <Box p={2} mb={2} bgcolor={backgroundColors[0]} borderRadius={0}>
+              <h4 style={{ fontWeight: "bold", marginLeft: "5px", marginBottom: "20px", marginTop: "30px" }}>
+                Upload documents
+              </h4>
+              <Box display="flex" flexWrap="wrap">
+                {/* Aadhaar Card */}
+                <Box width="50%" p={2}>
+                  <Typography variant="h6" gutterBottom>
+                    Aadhaar Card
+                  </Typography>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                  <FormControl fullWidth>
+                    <input
+                      type="file"
+                      name="Aadhar"
+                      accept="*/*"
+                      required
+                      onChange={handleChange}
+                      disabled={isApproved === "APPROVED" ? true : false}
+                    />
+                  </FormControl>
+                  <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+    </Box>
+      </Box>          
             {/* Pan Card */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Pan Card
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -183,12 +224,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+            </Box>
             </Box>
             {/* Highest Degree Certificate */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Highest Degree Certificate
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -199,12 +247,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+            </Box>
             </Box>
             {/* Xth Certificate */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Xth Certificate
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -215,12 +270,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+              </Box>
             </Box>
             {/* Inter Certificate */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Inter Certificate
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -231,12 +293,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+              </Box>
             </Box>
             {/* Experience Letter(s) */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Experience Letter(s)
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -247,12 +316,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+              </Box>
             </Box>
             {/* PassBook/Cancelled Cheque */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 PassBook/Cancelled Cheque
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -263,12 +339,19 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+              </Box>
             </Box>
             {/* Previous Employment Salary Proofs */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
                 Previous Employment Salary Proofs (3 Months)
               </Typography>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
               <FormControl fullWidth>
                 <input
                   type="file"
@@ -279,70 +362,129 @@ export default function UploadDocumentView() {
                   disabled={isApproved ==="APPROVED"?true:false}
                 />
               </FormControl>
+              <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+    </Box>
+              </Box>
             </Box>
             <Box width="50%" p={2}>
-              <Typography variant="h6" gutterBottom>
-                NDA
-              </Typography>
-              <FormControl fullWidth>
-                <input
-                  type="file"
-                  name="NDA"
-                  accept="*/*"
-                  required
-                  onChange={handleChange}
-                  disabled={isApproved ==="APPROVED"?true:false}
-                />
-              </FormControl>
-            </Box>
+  <Typography variant="h6" gutterBottom>
+    NDA (download and upload the signed form)
+  </Typography>
+ 
+  <Box display="flex" alignItems="center" justifyContent="space-between">
+    <FormControl fullWidth>
+      <input
+        type="file"
+        name="NDA"
+        accept="*/*"
+        required
+        onChange={handleChange}
+        disabled={isApproved === "APPROVED" ? true : false}
+      />
+    </FormControl>
+    <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+      <Box width="10px"></Box> {/* Add space between icons */}
+      <IconButton onClick={() => handleDownloadClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link", "NDA")}>
+        <GetAppOutlinedIcon />
+      </IconButton>
+    </Box>
+  </Box>
+</Box>
+
+  
             {/* BGV */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
-                BGV
+                BGV(download and upload the signed form)
+        
               </Typography>
-              <FormControl fullWidth>
-                <input
-                  type="file"
-                  name="BGV"
-                  accept="*/*"
-                  required
-                  onChange={handleChange}
-                  disabled={isApproved ==="APPROVED"?true:false}
-                />
-              </FormControl>
-            </Box>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+    <FormControl fullWidth>
+      <input
+        type="file"
+        name="BGV"
+        accept="*/*"
+        required
+        onChange={handleChange}
+        disabled={isApproved === "APPROVED" ? true : false}
+      />
+    </FormControl>
+    <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+      <Box width="10px"></Box> {/* Add space between icons */}
+      <IconButton onClick={() => handleDownloadClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link", "NDA")}>
+        <GetAppOutlinedIcon />
+      </IconButton>
+    </Box>
+  </Box>
+</Box>
+
             {/* LOA */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
-                LOA
+                LOA(download and upload the signed form)
+                
               </Typography>
-              <FormControl fullWidth>
-                <input
-                  type="file"
-                  name="LOA"
-                  accept="*/*"
-                  required
-                  onChange={handleChange}
-                  disabled={isApproved ==="APPROVED"?true:false}
-                />
-              </FormControl>
-            </Box>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+    <FormControl fullWidth>
+      <input
+        type="file"
+        name="LOA"
+        accept="*/*"
+        required
+        onChange={handleChange}
+        disabled={isApproved === "APPROVED" ? true : false}
+      />
+    </FormControl>
+    <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+      <Box width="10px"></Box> {/* Add space between icons */}
+      <IconButton onClick={() => handleDownloadClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link", "NDA")}>
+        <GetAppOutlinedIcon />
+      </IconButton>
+    </Box>
+  </Box>
+</Box>
+
             {/* Standard of Conduct */}
             <Box width="50%" p={2}>
               <Typography variant="h6" gutterBottom>
-                Standard of Conduct
+               SOC(download and upload the signed form)
+                
               </Typography>
-              <FormControl fullWidth>
-                <input
-                  type="file"
-                  name="SOCD"
-                  accept="*/*"
-                  required
-                  onChange={handleChange}
-                  disabled={isApproved ==="APPROVED"?true:false}
-                />
-              </FormControl>
-            </Box>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+    <FormControl fullWidth>
+      <input
+        type="file"
+        name="SOC"
+        accept="*/*"
+        required
+        onChange={handleChange}
+        disabled={isApproved === "APPROVED" ? true : false}
+      />
+    </FormControl>
+    <Box display="flex" alignItems="center" justifyContent="space-between" width="80px">
+      <IconButton onClick={() => handleViewClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link")}>
+        <VisibilityOutlinedIcon />
+      </IconButton>
+      <Box width="10px"></Box> {/* Add space between icons */}
+      <IconButton onClick={() => handleDownloadClick("https://drive.google.com/file/d/1wAMf_jbLzfC165QGZg1100uqnNNKIY2s/view?usp=drive_link", "NDA")}>
+        <GetAppOutlinedIcon />
+      </IconButton>
+    </Box>
+  </Box>
+</Box>
+
           </Box>
           </Box>
         <Box p={2} display="flex" justifyContent="flex-end">
