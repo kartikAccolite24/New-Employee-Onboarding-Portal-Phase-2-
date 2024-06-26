@@ -94,7 +94,7 @@ const UnderReviewApplication = () => {
     setModalOpen(true);
   };
 
-  const rowsWithSerialNumber = usersData.map((user, index) => ({
+  const rowsWithSerialNumber = usersData?.map((user, index) => ({
     ...user,
     id: index + 1,
   }));
@@ -103,8 +103,7 @@ const UnderReviewApplication = () => {
     setFilterName(event.target.value);
   };
 
-  const filteredRows = usersData
-    .filter((user) =>
+  const filteredRows = usersData?.filter((user) =>
       user.username.toLowerCase().includes(filterName.toLowerCase()) 
       // user.isApproved === "APPROVED"
     )

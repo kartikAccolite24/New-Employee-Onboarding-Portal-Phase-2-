@@ -639,21 +639,21 @@ const UserView = () => {
         </>
       )
     },
-    // {
-    //   field: "view",
-    //   headerName: "View",
-    //   sortable: false,
-    //   width: 150,
-    //   renderCell: ({ row }) => (
-    //     <Button
-    //       variant="contained"
-    //       color="primary"
-    //       onClick={() => handleViewClick(row.id)}
-    //     >
-    //       View
-    //     </Button>
-    //   ),
-    // },
+    {
+      field: "view",
+      headerName: "View",
+      sortable: false,
+      width: 150,
+      renderCell: ({ row }) => (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleViewClick(row.id)}
+        >
+          View
+        </Button>
+      ),
+    },
     // {
     //   field: "adminRejectionComment",
     //   headerName: "Remark",

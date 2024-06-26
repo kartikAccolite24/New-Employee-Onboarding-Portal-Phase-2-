@@ -131,6 +131,7 @@ import ProtectedRoute from 'src/components/ProtectedRoute'; // Import the Protec
 import ApprovedEmployees from 'src/sections/approvedEmployees/view/ApprovedEmployees';
 import RejectedEmployees from 'src/sections/RejectedEmployees/view/RejectedEmployees';
 import UnderReviewApplication from 'src/sections/underReviewApplications/view/UnderReviewApplication';
+import VerifyEmail from 'src/sections/verifyEmail/verifyEmail';
 // Loading component
 const Loading = () => (
   <div style={{ textAlign: 'center', marginTop: '20%' }}>
@@ -188,7 +189,8 @@ export default function Router() {
         { path: "addUser", element:<AddUser />},
         { path: "approvedEmployees", element:<ApprovedEmployees/>},
         { path: "underReview", element:<UnderReviewApplication/>},
-        { path: "rejectedEmployees", element:<RejectedEmployees/>}
+        { path: "rejectedEmployees", element:<RejectedEmployees/>},
+        {path : "verifyEmail", element:<VerifyEmail/>}
 
       ],
     },

@@ -51,7 +51,7 @@ public class EmailService {
                 "To help you get started, we have set up an employee onboarding portal that contains all the necessary information and resources you'll need during your first few weeks. The portal includes important documents, training materials, company policies, and other useful information.\n" +
                 "\n" +
                 "Onboarding Portal Link: http://localhost:3030" +
-                "Instructions:\n\n" +
+                "\n\nInstructions:\n\n" +
                 "1. Access the Portal: Click on the link above to access the onboarding portal.\n"+
                 "2. Go to Register Now, and verify your email address. Use the same email address on which you are receiving this email.\n"+
                 "3. After successful verification, set a new password for your account. \n"+

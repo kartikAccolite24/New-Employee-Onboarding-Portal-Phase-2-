@@ -116,8 +116,11 @@ export default function Nav({ openNav, onCloseNav }) {
   
         // Fetch upload documents
         const UploadDocuments = await axiosInstance.get(`/getUser/${username}`);
+        
         const docs = UploadDocuments ? UploadDocuments.data.documentMap : false;
-        uploaddocumentsStatus = docs ? true : false;
+        console.log(docs);
+        uploaddocumentsStatus = Object.keys(docs).length === 0 ? false : true;
+        
   
         // Set statuses
         setPersonalDetailsStatus(personaldetailsStatus);
